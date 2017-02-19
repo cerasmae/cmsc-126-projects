@@ -29,7 +29,7 @@ function parseUri(uri) {
     uri = uri.substring(uri.indexOf(":")+1, uri.length);
     var i = 0, terminator;
 
-    //authority
+    //authority and path
     if( uri.includes("/") ){
         if( uri.startsWith("///") ){
             uriParts.path = uri.substring( 2, uri.length );
@@ -45,11 +45,11 @@ function parseUri(uri) {
 
             uriParts.authority = uri.substring(0, i);
         }
-    } else if( uri.includes(":") ){
-        uriParts.authority = uri;
+    } else{
+        uriParts.path = uri;
     }
 
-    if( i < uri.length ){
+    if( i < uri.length-1 ){
         uri = uri.substring(i, uri.length);
 
         if( uri.startsWith("/") ){
