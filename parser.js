@@ -31,33 +31,25 @@ function parseUri(uri) {
 
     //authority
     if( uri.includes("/") ){
-
         if( uri.startsWith("///") ){
-
-            uriParts.path = uri.substring( 3, uri.length );
-
+            uriParts.path = uri.substring( 2, uri.length );
+            i = uri.length;
         } else if( uri.startsWith("//") ){
-
             uri = uri.substring(2, uri.length);
 
             for( ; i < uri.length; i++ ){
-
-                if( uri.charAt(i) == "/" || uri.charAt(i) == "?" || uri.charAt(i) == "#" ){
+                if( uri.charAt(i) === "/" || uri.charAt(i) === "?" || uri.charAt(i) === "#" ){
                     break;
                 }
-
             }
 
             uriParts.authority = uri.substring(0, i);
-
         }
-
     } else if( uri.includes(":") ){
         uriParts.authority = uri;
     }
 
     if( i < uri.length ){
-
         uri = uri.substring(i, uri.length);
 
         if( uri.startsWith("/") ){
