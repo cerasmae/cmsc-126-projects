@@ -25,8 +25,16 @@ function parseUri(uri) {
     // add your code here
 
     //scheme
-    uriParts.scheme = uri.substring(0, uri.indexOf(":")  );
-    uri = uri.substring(uri.indexOf(":")+1, uri.length);
+
+    var hasColumn = false;
+
+    if( uri.includes(":") ){
+        uriParts.scheme = uri.substring(0, uri.indexOf(":")  );
+        uri = uri.substring(uri.indexOf(":")+1, uri.length);
+        hasColumn = true;
+    }
+
+    
     var i = 0, terminator;
 
     //authority and path
@@ -44,6 +52,28 @@ function parseUri(uri) {
             }
 
             uriParts.authority = uri.substring(0, i);
+        } else{
+
+            var scheme = "";
+
+            if( hasColumn === true ){
+                scheme = uriParts.scheme.concat(":");
+            } else{
+                scheme = uriParts.scheme;
+            }
+            
+            uri = scheme.concat( uri );
+            uriParts.scheme = "";
+
+            for( i = 0; i < uri.length; i++ ){
+                if( uri.charAt(i) === "/" || uri.charAt(i) === "?" || uri.charAt(i) === "#" ){
+                    break;
+                }
+            }
+
+            uriParts.authority = uri.substring(0, i);
+            // uri = uri.substring(i, uri.length);
+            
         }
     } else{
         uriParts.path = uri;
